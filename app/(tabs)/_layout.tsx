@@ -1,70 +1,127 @@
-import { SymbolView } from 'expo-symbols';
-import { Link, Tabs } from 'expo-router';
-import { Platform, Pressable } from 'react-native';
+import { Tabs } from "expo-router";
+import { View, Text, StyleSheet, Platform } from "react-native";
+import { Colors, Typography } from "../../src/lib/theme";
 
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+function TabIcon({
+  icon,
+  label,
+  focused,
+}: {
+  icon: string;
+  label: string;
+  focused: boolean;
+}) {
+  return (
+    <View style={[styles.tabItem, focused && styles.tabItemActive]}>
+      <Text style={[styles.tabIcon, focused && styles.tabIconActive]}>{icon}</Text>
+      <Text style={[styles.tabLabel, focused && styles.tabLabelActive]}>
+        {label}
+      </Text>
+    </View>
+  );
+}
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
-      }}>
+        headerShown: false,
+        tabBarStyle: styles.tabBar,
+        tabBarShowLabel: false,
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => (
-            <SymbolView
-              name={{
-                ios: 'chevron.left.forwardslash.chevron.right',
-                android: 'code',
-                web: 'code',
-              }}
-              tintColor={color}
-              size={28}
-            />
-          ),
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable style={{ marginRight: 15 }}>
-                {({ pressed }) => (
-                  <SymbolView
-                    name={{ ios: 'info.circle', android: 'info', web: 'info' }}
-                    size={25}
-                    tintColor={Colors[colorScheme].text}
-                    style={{ opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+          tabBarIcon: ({ focused }) => (
+            <TabIcon icon="📐" label="Calc" focused={focused} />
           ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="tape"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => (
-            <SymbolView
-              name={{
-                ios: 'chevron.left.forwardslash.chevron.right',
-                android: 'code',
-                web: 'code',
-              }}
-              tintColor={color}
-              size={28}
-            />
+          tabBarIcon: ({ focused }) => (
+            <TabIcon icon="📋" label="Tape" focused={focused} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="stairs"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon icon="🪜" label="Stairs" focused={focused} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="rafters"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon icon="📐" label="Rafters" focused={focused} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="materials"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon icon="🧱" label="Materials" focused={focused} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="jobs"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon icon="💼" label="Jobs" focused={focused} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon icon="⚙️" label="Settings" focused={focused} />
           ),
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBar: {
+    backgroundColor: Colors.tabBg,
+    borderTopColor: Colors.tabBorder,
+    borderTopWidth: 1,
+    height: Platform.OS === "ios" ? 82 : 64,
+    paddingBottom: Platform.OS === "ios" ? 20 : 8,
+    paddingTop: 8,
+  },
+  tabItem: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 4,
+    paddingHorizontal: 6,
+    borderRadius: 10,
+    minWidth: 50,
+    gap: 2,
+  },
+  tabItemActive: {
+    backgroundColor: Colors.orangeMuted,
+  },
+  tabIcon: {
+    fontSize: 20,
+  },
+  tabIconActive: {},
+  tabLabel: {
+    fontSize: Typography.xs,
+    color: Colors.tabInactive,
+    fontWeight: Typography.medium,
+  },
+  tabLabelActive: {
+    color: Colors.orange,
+    fontWeight: Typography.bold,
+  },
+});
