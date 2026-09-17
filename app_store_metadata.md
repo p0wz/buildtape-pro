@@ -84,14 +84,15 @@ BUILT FOR RUGGED JOBSITES
 - No Subscriptions: Buy once, own forever. Never pay $40/year just to use a calculator on the job.
 ```
 
-### Support URL (Destek Bağlantısı)
+### Support URL (Destek Bağlantısı) [CANLI - AKTİF]
 ```text
-https://github.com/p0wze/buildtape-pro
+https://p0wz.github.io/buildtape-pro/
 ```
-*(veya web siteniz / landing page linkiniz)*
 
-### Marketing URL (Pazarlama Bağlantısı - Opsiyonel)
-*(Boş bırakılabilir veya Support URL ile aynı verilebilir)*
+### Privacy Policy URL (Gizlilik Politikası Bağlantısı) [CANLI - AKTİF]
+```text
+https://p0wz.github.io/buildtape-pro/#privacy
+```
 
 ### Copyright (Telif Hakkı)
 ```text
