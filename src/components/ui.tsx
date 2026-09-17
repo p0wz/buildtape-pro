@@ -150,7 +150,7 @@ export function ProGate({
           disabled={restoring}
         />
         <TouchableOpacity
-          style={{ alignItems: "center", paddingVertical: 8 }}
+          style={{ alignItems: "center", paddingVertical: 6 }}
           onPress={() => router.push("/(tabs)/settings")}
           activeOpacity={0.7}
         >
@@ -158,6 +158,20 @@ export function ProGate({
             View All Features & Settings →
           </AppText>
         </TouchableOpacity>
+
+        <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 2 }}>
+          <TouchableOpacity onPress={() => router.push("/(tabs)/settings")} activeOpacity={0.7}>
+            <AppText style={{ fontSize: 11, color: Colors.textSecondary, textDecorationLine: "underline" }}>
+              Terms of Use (EULA)
+            </AppText>
+          </TouchableOpacity>
+          <AppText style={{ fontSize: 11, color: Colors.textMuted }}>•</AppText>
+          <TouchableOpacity onPress={() => router.push("/(tabs)/settings")} activeOpacity={0.7}>
+            <AppText style={{ fontSize: 11, color: Colors.textSecondary, textDecorationLine: "underline" }}>
+              Privacy Policy
+            </AppText>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.proGatePill}>

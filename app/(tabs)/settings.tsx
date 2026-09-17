@@ -176,28 +176,6 @@ export default function SettingsScreen() {
                 onPress={handleRestore}
                 disabled={restoring}
               />
-              <TouchableOpacity
-                style={{
-                  alignItems: "center",
-                  paddingVertical: 10,
-                  paddingHorizontal: 16,
-                  borderRadius: Radius.sm,
-                  backgroundColor: Colors.surface,
-                  borderWidth: 1,
-                  borderColor: Colors.border,
-                  marginTop: 4,
-                }}
-                onPress={() => {
-                  setIsPro(false);
-                  try { setSetting("isPro", "false"); } catch (_) {}
-                  Alert.alert("Free Mode Aktif", "Uygulama Free (Ücretsiz) moda alındı. Satın alma kartını çekebilirsiniz.");
-                }}
-                activeOpacity={0.7}
-              >
-                <Text style={{ fontSize: 13, color: Colors.orange, fontWeight: "600" }}>
-                  🔄 Free Moda Geç (Paywall SS için)
-                </Text>
-              </TouchableOpacity>
             </View>
           ) : (
             <View style={{ gap: Spacing.md, paddingTop: Spacing.sm }}>
@@ -222,7 +200,7 @@ export default function SettingsScreen() {
               />
 
               <Text style={styles.legalFootnote}>
-                Payment will be charged to your {Platform.OS === "android" ? "Google Play" : "Apple ID"} account at confirmation of purchase.
+                Payment will be charged to your Apple ID account at confirmation of purchase.
                 One-time purchase, no subscription.
               </Text>
 

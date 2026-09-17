@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BuildTape Pro - Support & Legal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090A0F;
+      --card-bg: #13151F;
+      --card-border: #1E2235;
+      --orange: #FF5A1F;
+      --orange-light: #FF773D;
+      --text: #F3F4F6;
+      --text-muted: #9CA3AF;
+      --text-dim: #6B7280;
+      --accent-glow: rgba(255, 90, 31, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      padding: 0;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 24px 80px 24px;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 60px 0 40px 0;
+      position: relative;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: rgba(255, 90, 31, 0.12);
+      border: 1px solid rgba(255, 90, 31, 0.3);
+      color: var(--orange-light);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      background: linear-gradient(180deg, #FFFFFF 0%, #D1D5DB 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Nav Anchor Links */
+    .quick-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .quick-nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .quick-nav a:hover {
+      border-color: var(--orange);
+      color: var(--orange-light);
+      transform: translateY(-2px);
+    }
+
+    /* Section Styles */
+    section {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 36px;
+      margin-top: 32px;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #FFFFFF;
+    }
+
+    h2 .icon {
+      font-size: 24px;
+    }
+
+    p {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+
+    p strong {
+      color: var(--text);
+    }
+
+    /* Contact Card */
+    .contact-box {
+      background: linear-gradient(135deg, rgba(255, 90, 31, 0.1) 0%, rgba(19, 21, 31, 0) 100%);
+      border: 1px solid rgba(255, 90, 31, 0.25);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .contact-info {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .contact-info h3 {
+      font-size: 18px;
+      margin-bottom: 6px;
+      color: #FFFFFF;
+    }
+
+    .contact-info p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .btn-contact {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--orange);
+      color: #FFFFFF;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 12px 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(255, 90, 31, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .btn-contact:hover {
+      background: var(--orange-light);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 90, 31, 0.4);
+    }
+
+    /* FAQ List */
+    .faq-item {
+      border-bottom: 1px solid var(--card-border);
+      padding: 20px 0;
+    }
+
+    .faq-item:first-child {
+      padding-top: 0;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .faq-question {
+      font-size: 17px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+    }
+
+    .faq-answer {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* Steps Box */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .step-content strong {
+      color: #FFFFFF;
+      display: block;
+      margin-bottom: 2px;
+      font-size: 15px;
+    }
+
+    /* Disclaimer Callout */
+    .disclaimer-box {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-top: 16px;
+    }
+
+    .disclaimer-box p {
+      color: #FCD34D;
+      font-size: 14px;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding-top: 50px;
+      color: var(--text-dim);
+      font-size: 14px;
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 32px; }
+      section { padding: 24px; }
+      .contact-box { flex-direction: column; align-items: stretch; text-align: center; }
+      .btn-contact { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="badge">Official Support & Legal Center</div>
+      <h1>BuildTape Pro</h1>
+      <p class="subtitle">High-precision construction calculator, tape fraction solver, and jobsite estimator for iPhone & iPad.</p>
+
+      <div class="quick-nav">
+        <a href="#contact">Contact Support</a>
+        <a href="#faq">FAQ</a>
+        <a href="#restore">Restore Purchases</a>
+        <a href="#privacy">Privacy Policy</a>
+        <a href="#disclaimer">Disclaimer</a>
+        <a href="#terms">Terms of Use</a>
+      </div>
+    </header>
+
+    <!-- 1. CONTACT -->
+    <section id="contact">
+      <h2><span class="icon">✉️</span> Contact Support</h2>
+      <p>Have questions, found a bug, or have a feature request for a specific construction calculator? We are here to help.</p>
+      
+      <div class="contact-box">
+        <div class="contact-info">
+          <h3>Developer Support</h3>
+          <p>Email response guaranteed within 24–48 hours.</p>
+          <p style="margin-top: 6px; font-family: 'JetBrains Mono', monospace; color: var(--orange-light); font-size: 15px;">support@buildtapepro.com</p>
+        </div>
+        <a href="mailto:support@buildtapepro.com?subject=BuildTape%20Pro%20Support%20Request" class="btn-contact">
+          Email Support
+        </a>
+      </div>
+    </section>
+
+    <!-- 2. FAQ -->
+    <section id="faq">
+      <h2><span class="icon">❓</span> Frequently Asked Questions (FAQ)</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">Does BuildTape Pro require an active internet connection?</div>
+        <div class="faq-answer">No. BuildTape Pro runs 100% offline. All fraction math, stair calculations, roof rafter pitches, and material estimations are performed locally on your device. You can use it in basements, rural framing sites, and off-grid locations without cellular reception.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">What is included in the Free Tier vs. Lifetime Pro?</div>
+        <div class="faq-answer">The Free Tier gives you full access to the Imperial Tape Measure & Fraction Calculator, running tape history, and unit conversions. The Lifetime Pro upgrade unlocks specialized trade solvers: IBC-Compliant Stair Solver, Roof & Rafter Pitch Cuts, and Material Estimators (Studs, Drywall Sheets, Concrete Volume, Board Feet).</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Is BuildTape Pro a subscription?</div>
+        <div class="faq-answer">No! BuildTape Pro does NOT charge monthly or annual recurring fees. It is a single one-time purchase ($9.99) that grants lifetime access to all current and upcoming pro solvers. Buy once, own forever.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">How does the Stair Solver verify code compliance?</div>
+        <div class="faq-answer">The solver adheres to International Building Code (IBC) guidelines (maximum 7-3/4" riser height, minimum 10" tread depth). If an entered dimension falls outside safe limits, the app flags a visual compliance warning before you cut your stringers.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Can I switch between Imperial and Metric units?</div>
+        <div class="faq-answer">Yes. Navigate to Settings inside the app to toggle between Imperial (feet, inches, 1/16" fractions) and Metric (millimeters, centimeters, meters) modes.</div>
+      </div>
+    </section>
+
+    <!-- 3. RESTORE PURCHASE INFO -->
+    <section id="restore">
+      <h2><span class="icon">🔄</span> Restore Purchases Information</h2>
+      <p>If you reinstalled the app, bought a new iPhone, or upgraded your iPad, you do <strong>never need to pay again</strong>. Your Lifetime Pro license is securely tied to your Apple ID.</p>
+
+      <div class="steps">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Open BuildTape Pro</strong>
+            Ensure you are signed in to the App Store with the same Apple ID used to purchase Lifetime Pro.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Navigate to Settings</strong>
+            Tap the "Settings" tab located in the bottom navigation bar.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Tap "Restore Purchases"</strong>
+            Scroll to the BuildTape Pro card and tap the <em>"Restore Purchases"</em> button. Apple StoreKit will verify your receipt and immediately re-unlock all Pro solvers.
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top: 18px; font-size: 14px;">If you encounter any issues restoring your purchase, contact us at <a href="mailto:support@buildtapepro.com" style="color: var(--orange-light);">support@buildtapepro.com</a> with your Apple purchase receipt number.</p>
+    </section>
+
+    <!-- 4. DISCLAIMER -->
+    <section id="disclaimer">
+      <h2><span class="icon">⚠️</span> Jobsite & Calculation Disclaimer</h2>
+      <p>Please read this important notice regarding jobsite measurements and construction math:</p>
+      
+      <div class="disclaimer-box">
+        <p><strong>Professional Construction Disclaimer:</strong> BuildTape Pro is provided as a calculation aid and jobsite reference utility. While our math algorithms adhere to standard architectural formulas and IBC standards, local municipal building codes, engineering specifications, and jobsite conditions vary. <strong>Always physically verify all cut lists, load-bearing requirements, and rough openings with a certified structural engineer, architect, or local building inspector before cutting lumber, ordering bulk materials, or pouring concrete.</strong> The developer accepts no liability for cutting errors, material miscalculations, or code compliance citations arising from reliance on app outputs.</p>
+      </div>
+    </section>
+
+    <!-- 5. PRIVACY POLICY -->
+    <section id="privacy">
+      <h2><span class="icon">🔒</span> Privacy Policy</h2>
+      <p><strong>Last Updated: September 2026</strong></p>
+      <p>BuildTape Pro was engineered with a strict <em>zero-data collection</em> philosophy. Your privacy is absolute.</p>
+      
+      <p><strong>1. Information Collection:</strong> BuildTape Pro does NOT collect, transmit, sell, or store any personal information, device identifiers, location data, or calculation history on external servers. All data stays 100% on your local device.</p>
+      
+      <p><strong>2. In-App Purchases:</strong> Payment processing for the optional Lifetime Pro upgrade is handled directly and exclusively by Apple Inc. through StoreKit. We never see or store your credit card details or billing address.</p>
+
+      <p><strong>3. Analytics and Tracking:</strong> BuildTape Pro contains no third-party tracking SDKs, no advertising frameworks, and no behavioral analytics tools. We respect your device battery and bandwidth.</p>
+
+      <p><strong>4. Children's Privacy:</strong> BuildTape Pro does not target or knowingly collect data from children under the age of 13.</p>
+
+      <p><strong>5. Contact:</strong> If you have any questions regarding our Privacy Policy, contact us at <a href="mailto:support@buildtapepro.com" style="color: var(--orange-light);">support@buildtapepro.com</a>.</p>
+    </section>
+
+    <!-- 6. TERMS OF USE -->
+    <section id="terms">
+      <h2><span class="icon">📜</span> Terms of Use (EULA)</h2>
+      <p>BuildTape Pro is licensed under Apple's Standard Licensed Application End User License Agreement (EULA). By downloading and using the app, you agree to these standard terms:</p>
+      <p><a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener noreferrer" style="color: var(--orange-light); text-decoration: underline;">View Apple Standard End User License Agreement (EULA)</a></p>
+    </section>
+
+    <footer>
+      <p>&copy; 2026 BuildTape Pro. All rights reserved.</p>
+      <p style="margin-top: 6px;">Developed by Süleyman Emir Erdem</p>
+    </footer>
+  </div>
+
+</body>
+</html>
