@@ -177,16 +177,25 @@ export default function SettingsScreen() {
                 disabled={restoring}
               />
               <TouchableOpacity
-                style={{ alignItems: "center", paddingVertical: 8 }}
+                style={{
+                  alignItems: "center",
+                  paddingVertical: 10,
+                  paddingHorizontal: 16,
+                  borderRadius: Radius.sm,
+                  backgroundColor: Colors.surface,
+                  borderWidth: 1,
+                  borderColor: Colors.border,
+                  marginTop: 4,
+                }}
                 onPress={() => {
                   setIsPro(false);
                   try { setSetting("isPro", "false"); } catch (_) {}
-                  Alert.alert("Mode Changed", "Switched back to Free Mode.");
+                  Alert.alert("Free Mode Aktif", "Uygulama Free (Ücretsiz) moda alındı. Satın alma kartını çekebilirsiniz.");
                 }}
                 activeOpacity={0.7}
               >
-                <Text style={{ fontSize: 12, color: Colors.textMuted, textDecorationLine: "underline" }}>
-                  Switch to Free Mode (Test Paywall)
+                <Text style={{ fontSize: 13, color: Colors.orange, fontWeight: "600" }}>
+                  🔄 Free Moda Geç (Paywall SS için)
                 </Text>
               </TouchableOpacity>
             </View>
