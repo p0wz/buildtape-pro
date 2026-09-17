@@ -36,12 +36,20 @@ import { fromFeetInchFraction, fromDecimalInches, decompose } from "../../src/li
 import { formatLength } from "../../src/lib/formatting";
 
 export default function StairsScreen() {
+  const router = useRouter();
   const { isPro, precision } = useStore();
 
   if (!isPro) {
     return (
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backBtn}
+            onPress={() => router.push("/(tabs)/tools")}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.backBtnText}>← Solvers Hub</Text>
+          </TouchableOpacity>
           <SectionHeader title="Stair Solver" subtitle="Pro feature" />
         </View>
         <ProGate isPro={false} featureName="Stair Solver" />

@@ -32,12 +32,20 @@ import { fromFeetInchFraction } from "../../src/lib/length";
 import { formatLength } from "../../src/lib/formatting";
 
 export default function RaftersScreen() {
+  const router = useRouter();
   const { isPro, precision } = useStore();
 
   if (!isPro) {
     return (
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backBtn}
+            onPress={() => router.push("/(tabs)/tools")}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.backBtnText}>← Solvers Hub</Text>
+          </TouchableOpacity>
           <SectionHeader title="Rafter Solver" subtitle="Pro feature" />
         </View>
         <ProGate isPro={false} featureName="Rafter Solver" />

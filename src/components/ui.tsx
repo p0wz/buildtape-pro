@@ -12,9 +12,19 @@ import {
   TextStyle,
   ActivityIndicator,
   TextProps,
+  Alert,
 } from "react-native";
+import { useRouter } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { Colors, Typography, Spacing, Radius, Shadow, CalcKey } from "../lib/theme";
+import {
+  purchasePro,
+  restorePurchases,
+  getProPackage,
+  ProPackageInfo,
+} from "../lib/purchases";
+import { useStore } from "../store";
+import { setSetting } from "../lib/sqlite";
 
 // ─── AppText ─────────────────────────────────────────────────────────────────
 
@@ -77,17 +87,81 @@ export function ProGate({
   isPro: boolean;
   featureName: string;
 }) {
+  const router = useRouter();
+  const { setIsPro } = useStore();
+  const [pkgInfo, setPkgInfo] = React.useState<ProPackageInfo | null>(null);
+  const [purchasing, setPurchasing] = React.useState(false);
+  const [restoring, setRestoring] = React.useState(false);
+
+  React.useEffect(() => {
+    getProPackage().then(setPkgInfo).catch(() => {});
+  }, []);
+
   if (isPro) return <>{children}</>;
+
+  const handlePurchase = async () => {
+    setPurchasing(true);
+    try {
+      const res = await purchasePro();
+      if (res.success && res.isPro) {
+        setIsPro(true);
+        try { setSetting("isPro", "true"); } catch (_) {}
+        Alert.alert("Welcome to Pro!", `${featureName} and all pro features are now permanently unlocked.`);
+      } else if (res.error) {
+        Alert.alert("Purchase Failed", res.error);
+      }
+    } finally {
+      setPurchasing(false);
+    }
+  };
+
+  const handleRestore = async () => {
+    setRestoring(true);
+    try {
+      const res = await restorePurchases();
+      if (res.isPro) {
+        setIsPro(true);
+        try { setSetting("isPro", "true"); } catch (_) {}
+      }
+      Alert.alert(res.isPro ? "Restored!" : "Notice", res.message);
+    } finally {
+      setRestoring(false);
+    }
+  };
+
   return (
     <View style={styles.proGate}>
       <AppText style={styles.proGateIcon}>🔒</AppText>
-      <AppText style={styles.proGateTitle}>Pro Feature</AppText>
+      <AppText style={styles.proGateTitle}>Unlock {featureName}</AppText>
       <AppText style={styles.proGateBody}>
         {featureName} is available in BuildTape Pro.{"\n"}
-        Enable Pro in Settings to unlock.
+        Get instant access to all solvers, estimators, and unlimited saved jobs.
       </AppText>
+
+      <View style={{ width: "100%", maxWidth: 320, gap: Spacing.sm, marginTop: Spacing.sm }}>
+        <PrimaryButton
+          title={purchasing ? "Processing..." : `Unlock Lifetime Pro — ${pkgInfo?.priceString || "$9.99"}`}
+          onPress={handlePurchase}
+          disabled={purchasing}
+        />
+        <SecondaryButton
+          title={restoring ? "Restoring..." : "Restore Purchases"}
+          onPress={handleRestore}
+          disabled={restoring}
+        />
+        <TouchableOpacity
+          style={{ alignItems: "center", paddingVertical: 8 }}
+          onPress={() => router.push("/(tabs)/settings")}
+          activeOpacity={0.7}
+        >
+          <AppText style={{ fontSize: 13, color: Colors.orange, textDecorationLine: "underline" }}>
+            View All Features & Settings →
+          </AppText>
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.proGatePill}>
-        <AppText style={styles.proGatePillText}>One-time purchase · No subscription</AppText>
+        <AppText style={styles.proGatePillText}>One-time purchase · Lifetime access</AppText>
       </View>
     </View>
   );
