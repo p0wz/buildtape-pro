@@ -16,8 +16,6 @@ function TabIcon({
       <Text style={styles.tabIcon}>{icon}</Text>
       <Text
         numberOfLines={1}
-        adjustsFontSizeToFit
-        minimumFontScale={0.75}
         style={[styles.tabLabel, focused && styles.tabLabelActive]}
       >
         {label}
@@ -63,7 +61,7 @@ export default function TabLayout() {
         name="rafters"
         options={{
           tabBarIcon: ({ focused }) => (
-            <TabIcon icon="📐" label="Rafters" focused={focused} />
+            <TabIcon icon="📐" label="Roof" focused={focused} />
           ),
         }}
       />
@@ -71,7 +69,7 @@ export default function TabLayout() {
         name="materials"
         options={{
           tabBarIcon: ({ focused }) => (
-            <TabIcon icon="🧱" label="Materials" focused={focused} />
+            <TabIcon icon="🧱" label="Mat'ls" focused={focused} />
           ),
         }}
       />
@@ -121,10 +119,11 @@ const styles = StyleSheet.create({
   },
   tabIconActive: {},
   tabLabel: {
-    fontSize: 10,
+    fontSize: 10.5,
     color: Colors.tabInactive,
-    fontWeight: "500",
+    fontWeight: "600",
     textAlign: "center",
+    letterSpacing: -0.2,
     includeFontPadding: false,
   },
   tabLabelActive: {
