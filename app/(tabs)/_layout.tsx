@@ -13,8 +13,13 @@ function TabIcon({
 }) {
   return (
     <View style={[styles.tabItem, focused && styles.tabItemActive]}>
-      <Text style={[styles.tabIcon, focused && styles.tabIconActive]}>{icon}</Text>
-      <Text style={[styles.tabLabel, focused && styles.tabLabelActive]}>
+      <Text style={styles.tabIcon}>{icon}</Text>
+      <Text
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        minimumFontScale={0.75}
+        style={[styles.tabLabel, focused && styles.tabLabelActive]}
+      >
         {label}
       </Text>
     </View>
@@ -102,26 +107,28 @@ const styles = StyleSheet.create({
   tabItem: {
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 4,
-    paddingHorizontal: 6,
-    borderRadius: 10,
-    minWidth: 50,
-    gap: 2,
+    paddingVertical: 3,
+    paddingHorizontal: 2,
+    borderRadius: 8,
+    flex: 1,
+    gap: 1,
   },
   tabItemActive: {
     backgroundColor: Colors.orangeMuted,
   },
   tabIcon: {
-    fontSize: 20,
+    fontSize: 18,
   },
   tabIconActive: {},
   tabLabel: {
-    fontSize: Typography.xs,
+    fontSize: 10,
     color: Colors.tabInactive,
-    fontWeight: Typography.medium,
+    fontWeight: "500",
+    textAlign: "center",
+    includeFontPadding: false,
   },
   tabLabelActive: {
     color: Colors.orange,
-    fontWeight: Typography.bold,
+    fontWeight: "700",
   },
 });

@@ -4,7 +4,12 @@
  */
 
 import { Platform } from "react-native";
+import Constants, { ExecutionEnvironment } from "expo-constants";
 import { getRevenueCatApiKey, REVENUECAT_CONFIG } from "../constants/purchases";
+
+export const IS_EXPO_GO =
+  Constants.executionEnvironment === ExecutionEnvironment.StoreClient ||
+  (Constants as any).appOwnership === "expo";
 
 export interface ProPackageInfo {
   identifier: string;
@@ -15,9 +20,9 @@ export interface ProPackageInfo {
 
 let PurchasesModule: any = null;
 
-// Dynamically import or reference react-native-purchases on native only
+// Dynamically import or reference react-native-purchases on native (standalone only, not Expo Go)
 async function getPurchases() {
-  if (Platform.OS === "web") return null;
+  if (Platform.OS === "web" || IS_EXPO_GO) return null;
   if (!PurchasesModule) {
     try {
       const pkg = await import("react-native-purchases");
@@ -115,8 +120,9 @@ export async function getProPackage(): Promise<ProPackageInfo> {
  * Purchase Pro Lifetime
  */
 export async function purchasePro(): Promise<{ success: boolean; isPro: boolean; error?: string }> {
-  if (Platform.OS === "web") {
-    return { success: false, isPro: false, error: "In-app purchases are only available on iOS and Android devices." };
+  if (Platform.OS === "web" || IS_EXPO_GO) {
+    // In Expo Go or Web, allow simulated purchase so user can test and screenshot Pro features
+    return { success: true, isPro: true };
   }
 
   try {
