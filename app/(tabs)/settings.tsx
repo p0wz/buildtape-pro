@@ -176,6 +176,19 @@ export default function SettingsScreen() {
                 onPress={handleRestore}
                 disabled={restoring}
               />
+              <TouchableOpacity
+                style={{ alignItems: "center", paddingVertical: 8 }}
+                onPress={() => {
+                  setIsPro(false);
+                  try { setSetting("isPro", "false"); } catch (_) {}
+                  Alert.alert("Mode Changed", "Switched back to Free Mode.");
+                }}
+                activeOpacity={0.7}
+              >
+                <Text style={{ fontSize: 12, color: Colors.textMuted, textDecorationLine: "underline" }}>
+                  Switch to Free Mode (Test Paywall)
+                </Text>
+              </TouchableOpacity>
             </View>
           ) : (
             <View style={{ gap: Spacing.md, paddingTop: Spacing.sm }}>
