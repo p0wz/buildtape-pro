@@ -3,7 +3,7 @@
  * Primary construction tape calculator with fraction input.
  */
 
-import React, { useReducer, useCallback, useState } from "react";
+import React, { useReducer, useCallback, useState, useEffect } from "react";
 import * as Haptics from 'expo-haptics';
 import { AppText } from '../../src/components/ui';
 import {
@@ -37,6 +37,15 @@ export default function CalculatorScreen() {
   );
   const [spacesModalVisible, setSpacesModalVisible] = useState(false);
   const [spacesInput, setSpacesInput] = useState("2");
+
+  // Synchronize store settings with calculator engine
+  useEffect(() => {
+    dispatch({ type: "SET_PRECISION", precision });
+  }, [precision]);
+
+  useEffect(() => {
+    dispatch({ type: "CONVERT", to: displayMode });
+  }, [displayMode]);
 
   const handleEquals = useCallback(() => {
     const newCalc = calcReducer(calc, { type: "EQUALS" });
