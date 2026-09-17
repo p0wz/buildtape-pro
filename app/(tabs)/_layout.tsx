@@ -1,92 +1,83 @@
 import { Tabs } from "expo-router";
-import { View, Text, StyleSheet, Platform } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { Colors, Typography } from "../../src/lib/theme";
-
-function TabIcon({
-  icon,
-  label,
-  focused,
-}: {
-  icon: string;
-  label: string;
-  focused: boolean;
-}) {
-  return (
-    <View style={[styles.tabItem, focused && styles.tabItemActive]}>
-      <Text style={styles.tabIcon}>{icon}</Text>
-      <Text
-        numberOfLines={1}
-        style={[styles.tabLabel, focused && styles.tabLabelActive]}
-      >
-        {label}
-      </Text>
-    </View>
-  );
-}
+import {
+  CalcIcon,
+  ToolsIcon,
+  TapeIcon,
+  JobsIcon,
+  SettingsIcon,
+} from "../../src/components/icons/TabIcons";
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
+        tabBarActiveTintColor: Colors.orange,
+        tabBarInactiveTintColor: Colors.tabInactive,
+        tabBarAllowFontScaling: false,
         tabBarStyle: styles.tabBar,
-        tabBarShowLabel: false,
+        tabBarItemStyle: styles.tabBarItem,
+        tabBarLabelStyle: styles.tabBarLabel,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          tabBarIcon: ({ focused }) => (
-            <TabIcon icon="📐" label="Calc" focused={focused} />
-          ),
+          tabBarLabel: "Calc",
+          tabBarIcon: ({ color }) => <CalcIcon color={color} size={22} />,
+        }}
+      />
+      <Tabs.Screen
+        name="tools"
+        options={{
+          tabBarLabel: "Tools",
+          tabBarIcon: ({ color }) => <ToolsIcon color={color} size={22} />,
         }}
       />
       <Tabs.Screen
         name="tape"
         options={{
-          tabBarIcon: ({ focused }) => (
-            <TabIcon icon="📋" label="Tape" focused={focused} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="stairs"
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <TabIcon icon="🪜" label="Stairs" focused={focused} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="rafters"
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <TabIcon icon="📐" label="Roof" focused={focused} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="materials"
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <TabIcon icon="🧱" label="Mat'ls" focused={focused} />
-          ),
+          tabBarLabel: "Tape",
+          tabBarIcon: ({ color }) => <TapeIcon color={color} size={22} />,
         }}
       />
       <Tabs.Screen
         name="jobs"
         options={{
-          tabBarIcon: ({ focused }) => (
-            <TabIcon icon="💼" label="Jobs" focused={focused} />
-          ),
+          tabBarLabel: "Jobs",
+          tabBarIcon: ({ color }) => <JobsIcon color={color} size={22} />,
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
-          tabBarIcon: ({ focused }) => (
-            <TabIcon icon="⚙️" label="Settings" focused={focused} />
-          ),
+          tabBarLabel: "Settings",
+          tabBarIcon: ({ color }) => <SettingsIcon color={color} size={22} />,
+        }}
+      />
+
+      {/* Sub-calculators accessible from the Tools Hub */}
+      <Tabs.Screen
+        name="stairs"
+        options={{
+          href: null,
+          headerShown: false,
+        }}
+      />
+      <Tabs.Screen
+        name="rafters"
+        options={{
+          href: null,
+          headerShown: false,
+        }}
+      />
+      <Tabs.Screen
+        name="materials"
+        options={{
+          href: null,
+          headerShown: false,
         }}
       />
     </Tabs>
@@ -98,36 +89,21 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.tabBg,
     borderTopColor: Colors.tabBorder,
     borderTopWidth: 1,
-    height: Platform.OS === "ios" ? 82 : 64,
-    paddingBottom: Platform.OS === "ios" ? 20 : 8,
-    paddingTop: 8,
+    height: Platform.OS === "ios" ? 82 : 60,
+    paddingBottom: Platform.OS === "ios" ? 22 : 6,
+    paddingTop: 6,
   },
-  tabItem: {
+  tabBarItem: {
+    paddingVertical: 1,
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 3,
-    paddingHorizontal: 2,
-    borderRadius: 8,
-    flex: 1,
-    gap: 1,
   },
-  tabItemActive: {
-    backgroundColor: Colors.orangeMuted,
-  },
-  tabIcon: {
-    fontSize: 18,
-  },
-  tabIconActive: {},
-  tabLabel: {
-    fontSize: 10.5,
-    color: Colors.tabInactive,
+  tabBarLabel: {
+    fontSize: 10,
     fontWeight: "600",
-    textAlign: "center",
     letterSpacing: -0.2,
-    includeFontPadding: false,
-  },
-  tabLabelActive: {
-    color: Colors.orange,
-    fontWeight: "700",
+    marginTop: 1,
   },
 });
+
+

@@ -5,13 +5,16 @@
 import React, { useState } from "react";
 import {
   View,
+  Text,
   TextInput,
   StyleSheet,
   ScrollView,
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
+  TouchableOpacity,
 } from "react-native";
+import { useRouter } from "expo-router";
 import Svg, { Path, Text as SvgText } from "react-native-svg";
 import { useStore } from "../../src/store";
 import { Colors, Typography, Spacing, Radius } from "../../src/lib/theme";
@@ -46,6 +49,7 @@ export default function RaftersScreen() {
 }
 
 function RafterSolverContent({ precision }: { precision: 8 | 16 | 32 }) {
+  const router = useRouter();
   const [runFt, setRunFt] = useState("10");
   const [runIn, setRunIn] = useState("0");
   const [pitch, setPitch] = useState("4");
@@ -66,6 +70,13 @@ function RafterSolverContent({ precision }: { precision: 8 | 16 | 32 }) {
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
         <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent}>
           <View style={styles.header}>
+            <TouchableOpacity
+              style={styles.backBtn}
+              onPress={() => router.push("/(tabs)/tools")}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.backBtnText}>← Solvers Hub</Text>
+            </TouchableOpacity>
             <SectionHeader title="Rafter Solver" subtitle="Common & Hip/Valley" />
           </View>
 
@@ -150,4 +161,19 @@ const styles = StyleSheet.create({
   angleBox: { flex: 1, backgroundColor: Colors.card, padding: Spacing.md, borderRadius: Radius.md, alignItems: "center", borderWidth: 1, borderColor: Colors.border },
   angleVal: { color: Colors.orange, fontSize: Typography.lg, fontWeight: Typography.bold },
   angleLabel: { color: Colors.textSecondary, fontSize: Typography.sm, marginTop: 4 },
+  backBtn: {
+    alignSelf: "flex-start",
+    marginBottom: Spacing.sm,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: Radius.sm,
+    backgroundColor: Colors.surface,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  backBtnText: {
+    fontSize: Typography.xs,
+    fontWeight: "600",
+    color: Colors.orange,
+  },
 });

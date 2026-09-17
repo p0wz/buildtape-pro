@@ -14,6 +14,7 @@ import {
   Platform,
   TouchableOpacity,
 } from "react-native";
+import { useRouter } from "expo-router";
 import { useStore } from "../../src/store";
 import { Colors, Typography, Spacing, Radius } from "../../src/lib/theme";
 import {
@@ -44,6 +45,7 @@ const TABS: { id: Tab; icon: string; label: string }[] = [
 ];
 
 export default function MaterialsScreen() {
+  const router = useRouter();
   const { isPro } = useStore();
   const [activeTab, setActiveTab] = useState<Tab>("board");
 
@@ -51,6 +53,13 @@ export default function MaterialsScreen() {
     return (
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backBtn}
+            onPress={() => router.push("/(tabs)/tools")}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.backBtnText}>← Solvers Hub</Text>
+          </TouchableOpacity>
           <SectionHeader title="Material Estimators" subtitle="Pro feature" />
         </View>
         <ProGate isPro={false} featureName="Material Estimators" />
@@ -61,6 +70,13 @@ export default function MaterialsScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.backBtn}
+          onPress={() => router.push("/(tabs)/tools")}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.backBtnText}>← Solvers Hub</Text>
+        </TouchableOpacity>
         <SectionHeader title="Material Estimators" />
       </View>
 
@@ -483,4 +499,19 @@ const styles = StyleSheet.create({
     fontSize: Typography.sm,
   },
   resultCard: { gap: Spacing.sm },
+  backBtn: {
+    alignSelf: "flex-start",
+    marginBottom: Spacing.sm,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: Radius.sm,
+    backgroundColor: Colors.surface,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  backBtnText: {
+    fontSize: Typography.xs,
+    fontWeight: "600",
+    color: Colors.orange,
+  },
 });

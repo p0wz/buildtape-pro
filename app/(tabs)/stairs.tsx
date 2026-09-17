@@ -11,9 +11,9 @@ import {
   ScrollView,
   SafeAreaView,
   KeyboardAvoidingView,
-  Platform,
   TouchableOpacity,
 } from "react-native";
+import { useRouter } from "expo-router";
 import { useStore } from "../../src/store";
 import { Colors, Typography, Spacing, Radius, Shadow } from "../../src/lib/theme";
 import {
@@ -52,6 +52,7 @@ export default function StairsScreen() {
 }
 
 function StairSolverContent({ precision }: { precision: 8 | 16 | 32 }) {
+  const router = useRouter();
   const [riseFt, setRiseFt] = useState("8");
   const [riseIn, setRiseIn] = useState("0");
   const [prefRiser, setPrefRiser] = useState("7.75");
@@ -91,8 +92,14 @@ function StairSolverContent({ precision }: { precision: 8 | 16 | 32 }) {
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={{ flex: 1 }}
       >
-        <ScrollView contentContainerStyle={styles.scroll}>
           <View style={styles.header}>
+            <TouchableOpacity
+              style={styles.backBtn}
+              onPress={() => router.push("/(tabs)/tools")}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.backBtnText}>← Solvers Hub</Text>
+            </TouchableOpacity>
             <SectionHeader
               title="Stair Solver"
               subtitle="Optimal riser/tread calculation"
@@ -366,5 +373,20 @@ const styles = StyleSheet.create({
     color: Colors.orange,
     fontSize: Typography.sm,
     fontWeight: Typography.semibold,
+  },
+  backBtn: {
+    alignSelf: "flex-start",
+    marginBottom: Spacing.sm,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: Radius.sm,
+    backgroundColor: Colors.surface,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  backBtnText: {
+    fontSize: Typography.xs,
+    fontWeight: "600",
+    color: Colors.orange,
   },
 });

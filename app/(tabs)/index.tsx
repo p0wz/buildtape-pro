@@ -24,7 +24,7 @@ import {
   makeTapeEntry,
 } from "../../src/features/calculator/CalculatorEngine";
 import { fractionsForPrecision } from "../../src/lib/fractions";
-import { formatLength } from "../../src/lib/formatting";
+import { formatLength, precisionLabel } from "../../src/lib/formatting";
 import { useStore, FREE_TAPE_LIMIT } from "../../src/store";
 import { Colors, Typography, Spacing, Radius, Shadow } from "../../src/lib/theme";
 import { insertTapeEntry } from "../../src/lib/sqlite";
@@ -81,6 +81,21 @@ export default function CalculatorScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      {/* Top Status Bar */}
+      <View style={styles.topBar}>
+        <View style={styles.topBarBrand}>
+          <Text style={styles.topBarLogo}>BUILDTAPE</Text>
+          <View style={styles.topBarProPill}>
+            <Text style={styles.topBarProText}>PRO</Text>
+          </View>
+        </View>
+        <View style={styles.topBarRight}>
+          <View style={styles.precisionBadge}>
+            <Text style={styles.precisionBadgeText}>{precisionLabel(precision)}</Text>
+          </View>
+        </View>
+      </View>
+
       {/* Display */}
       <View style={styles.display}>
         <AppText style={styles.displayExpr} numberOfLines={2} adjustsFontSizeToFit>
@@ -100,9 +115,10 @@ export default function CalculatorScreen() {
         {/* Tape mini-preview */}
         {tapeEntries.length > 0 && (
           <View style={styles.tapePreview}>
-            {tapeEntries.slice(0, 3).map((e) => (
+            <Text style={styles.tapePreviewLabel}>LAST TAPE</Text>
+            {tapeEntries.slice(0, 2).map((e) => (
               <AppText key={e.id} style={styles.tapePreviewItem} numberOfLines={1}>
-                {e.result}
+                {e.expression} = {e.result}
               </AppText>
             ))}
           </View>
@@ -115,8 +131,11 @@ export default function CalculatorScreen() {
           <TouchableOpacity
             key={m}
             style={styles.memoryBtn}
+            activeOpacity={0.7}
             onPress={() => {
-              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              if (Platform.OS !== "web") {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              }
               if (m === "MC") dispatch({ type: "MEMORY_CLEAR" });
               if (m === "MR") dispatch({ type: "MEMORY_RECALL" });
               if (m === "M-") dispatch({ type: "MEMORY_SUB" });
@@ -134,6 +153,7 @@ export default function CalculatorScreen() {
           <TouchableOpacity
             key={m}
             style={[styles.modeBtn, calc.inputMode === m && styles.modeBtnActive]}
+            activeOpacity={0.75}
             onPress={() => dispatch({ type: "SET_MODE", mode: m })}
           >
             <AppText style={[styles.modeBtnText, calc.inputMode === m && styles.modeBtnTextActive]}>
@@ -142,10 +162,10 @@ export default function CalculatorScreen() {
           </TouchableOpacity>
         ))}
         <View style={styles.modeSeparator} />
-        <TouchableOpacity style={styles.clearBtn} onPress={() => dispatch({ type: "BACKSPACE" })}>
+        <TouchableOpacity style={styles.clearBtn} activeOpacity={0.75} onPress={() => dispatch({ type: "BACKSPACE" })}>
           <AppText style={styles.clearBtnText}>⌫</AppText>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.acBtn} onPress={() => dispatch({ type: "CLEAR" })}>
+        <TouchableOpacity style={styles.acBtn} activeOpacity={0.75} onPress={() => dispatch({ type: "CLEAR" })}>
           <AppText style={styles.acBtnText}>AC</AppText>
         </TouchableOpacity>
       </View>
@@ -161,6 +181,7 @@ export default function CalculatorScreen() {
           <TouchableOpacity
             key={f.label}
             style={styles.fracBtn}
+            activeOpacity={0.7}
             onPress={() => dispatch({ type: "FRACTION", numerator: f.numerator, denominator: f.denominator })}
           >
             <AppText style={styles.fracBtnText}>{f.label}</AppText>
@@ -197,10 +218,10 @@ export default function CalculatorScreen() {
           <CalcKey
             label="SPACES"
             onPress={() => { setSpacesInput("2"); setSpacesModalVisible(true); }}
-            flex={2}
+            flex={1.6}
             variant="special"
           />
-          <CalcKey label="=" onPress={handleEquals} flex={2} variant="equals" />
+          <CalcKey label="=" onPress={handleEquals} flex={2.4} variant="equals" />
         </View>
       </View>
 
@@ -267,34 +288,54 @@ function CalcKey({
   active?: boolean;
   flex?: number;
 }) {
-  const bgColor =
-    variant === "equals"
-      ? Colors.orange
-      : variant === "op"
-      ? active ? Colors.orange : Colors.keyOperator
-      : variant === "special"
-      ? Colors.keySpecial
-      : Colors.keyDefault;
+  const isEquals = variant === "equals";
+  const isOpActive = variant === "op" && active;
+
+  const bgColor = isEquals
+    ? Colors.orange
+    : isOpActive
+    ? Colors.orange
+    : variant === "op"
+    ? Colors.keyOperator
+    : variant === "special"
+    ? Colors.keySpecial
+    : Colors.keyDefault;
+
+  const borderColor = isEquals
+    ? Colors.orangeLight
+    : isOpActive
+    ? Colors.orangeLight
+    : variant === "op"
+    ? Colors.orangeBorder
+    : variant === "special"
+    ? "rgba(34, 197, 94, 0.3)"
+    : Colors.border;
 
   const textColor: string =
-    variant === "equals" || (variant === "op" && active)
+    isEquals || isOpActive
       ? Colors.textOnOrange
       : variant === "op"
-      ? Colors.orangeLight
+      ? Colors.keyOperatorText
       : variant === "special"
-      ? Colors.success
+      ? Colors.keySpecialText
       : Colors.textPrimary;
 
   const handlePress = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    if (Platform.OS !== "web") {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    }
     onPress();
   };
 
   return (
     <TouchableOpacity
-      style={[styles.key, { flex, backgroundColor: bgColor }]}
+      style={[
+        styles.key,
+        { flex, backgroundColor: bgColor, borderColor },
+        isEquals && styles.keyEqualsGlow,
+      ]}
       onPress={handlePress}
-      activeOpacity={0.75}
+      activeOpacity={0.7}
     >
       <AppText style={[styles.keyText, { color: textColor }]}>{label}</AppText>
     </TouchableOpacity>
@@ -305,19 +346,72 @@ function CalcKey({
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: Colors.bg },
-  display: {
+  topBar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: Spacing.base,
+    paddingVertical: 10,
     backgroundColor: Colors.surface,
-    padding: Spacing.base,
     borderBottomWidth: 1,
     borderBottomColor: Colors.border,
-    minHeight: 120,
+  },
+  topBarBrand: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  topBarLogo: {
+    fontSize: 13,
+    fontWeight: "800",
+    color: Colors.textPrimary,
+    letterSpacing: 1.5,
+  },
+  topBarProPill: {
+    backgroundColor: Colors.orange,
+    paddingHorizontal: 6,
+    paddingVertical: 1.5,
+    borderRadius: Radius.xs,
+    marginLeft: 6,
+  },
+  topBarProText: {
+    fontSize: 9,
+    fontWeight: "800",
+    color: "#FFFFFF",
+    letterSpacing: 0.5,
+  },
+  topBarRight: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  precisionBadge: {
+    backgroundColor: Colors.card,
+    borderWidth: 1,
+    borderColor: Colors.borderLight,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: Radius.sm,
+  },
+  precisionBadgeText: {
+    fontSize: 11,
+    fontWeight: "600",
+    color: Colors.orange,
+    letterSpacing: -0.1,
+  },
+  display: {
+    backgroundColor: Colors.surface,
+    paddingHorizontal: Spacing.base,
+    paddingVertical: Spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+    minHeight: 115,
+    justifyContent: "flex-end",
   },
   displayExpr: {
     color: Colors.textPrimary,
-    fontSize: Typography.xxl,
+    fontSize: Typography.xxxl,
     fontWeight: Typography.heavy,
     textAlign: "right",
-    letterSpacing: -0.5,
+    letterSpacing: -0.8,
   },
   displayError: {
     color: Colors.error,
@@ -327,51 +421,62 @@ const styles = StyleSheet.create({
   },
   convertRow: {
     flexDirection: "row",
-    gap: Spacing.sm,
+    gap: Spacing.xs,
     marginTop: Spacing.sm,
     justifyContent: "flex-end",
   },
   convertPill: {
     backgroundColor: Colors.card,
     borderRadius: Radius.sm,
-    paddingHorizontal: Spacing.sm,
-    paddingVertical: 4,
+    paddingHorizontal: 7,
+    paddingVertical: 3,
     alignItems: "center",
+    borderWidth: 1,
+    borderColor: Colors.border,
   },
   convertPillSub: {
     color: Colors.textMuted,
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: Typography.bold,
     letterSpacing: 0.5,
   },
   convertPillLabel: {
     color: Colors.textSecondary,
-    fontSize: Typography.xs,
+    fontSize: 11,
+    fontWeight: "500",
   },
   tapePreview: {
     marginTop: Spacing.sm,
     borderTopWidth: 1,
     borderTopColor: Colors.border,
-    paddingTop: Spacing.sm,
-    gap: 2,
+    paddingTop: 4,
+    gap: 1,
+  },
+  tapePreviewLabel: {
+    fontSize: 9,
+    fontWeight: "700",
+    color: Colors.textMuted,
+    letterSpacing: 0.8,
   },
   tapePreviewItem: {
-    color: Colors.textMuted,
+    color: Colors.textSecondary,
     fontSize: Typography.xs,
     textAlign: "right",
   },
   memoryRow: {
     flexDirection: "row",
     paddingHorizontal: Spacing.sm,
-    paddingVertical: Spacing.xs,
-    gap: Spacing.sm,
+    paddingVertical: 6,
+    gap: Spacing.xs,
     backgroundColor: Colors.bg,
   },
   memoryBtn: {
     flex: 1,
-    paddingVertical: 6,
+    paddingVertical: 5,
     borderRadius: Radius.sm,
     backgroundColor: Colors.card,
+    borderWidth: 1,
+    borderColor: Colors.border,
     alignItems: "center",
   },
   memoryBtnText: {
@@ -381,53 +486,71 @@ const styles = StyleSheet.create({
   },
   modeRow: {
     flexDirection: "row",
-    padding: Spacing.sm,
-    gap: Spacing.sm,
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: 4,
+    gap: Spacing.xs,
     alignItems: "center",
     backgroundColor: Colors.bg,
   },
   modeBtn: {
-    paddingHorizontal: Spacing.base,
-    paddingVertical: Spacing.sm,
+    paddingHorizontal: 14,
+    paddingVertical: 7,
     borderRadius: Radius.md,
     borderWidth: 1,
     borderColor: Colors.border,
-    minWidth: 52,
+    minWidth: 48,
     alignItems: "center",
+    backgroundColor: Colors.card,
   },
-  modeBtnActive: { backgroundColor: Colors.orangeMuted, borderColor: Colors.orange },
-  modeBtnText: { color: Colors.textSecondary, fontSize: Typography.sm, fontWeight: Typography.bold, letterSpacing: 0.5 },
+  modeBtnActive: {
+    backgroundColor: Colors.orangeMuted,
+    borderColor: Colors.orange,
+  },
+  modeBtnText: {
+    color: Colors.textSecondary,
+    fontSize: Typography.sm,
+    fontWeight: Typography.bold,
+    letterSpacing: 0.5,
+  },
   modeBtnTextActive: { color: Colors.orange },
   modeSeparator: { flex: 1 },
   clearBtn: {
-    paddingHorizontal: Spacing.base,
-    paddingVertical: Spacing.sm,
+    paddingHorizontal: 14,
+    paddingVertical: 7,
     borderRadius: Radius.md,
     backgroundColor: Colors.card,
-    minWidth: 52,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    minWidth: 48,
     alignItems: "center",
   },
   clearBtnText: { color: Colors.textSecondary, fontSize: Typography.md },
   acBtn: {
-    paddingHorizontal: Spacing.base,
-    paddingVertical: Spacing.sm,
+    paddingHorizontal: 14,
+    paddingVertical: 7,
     borderRadius: Radius.md,
     backgroundColor: Colors.errorBg,
     borderWidth: 1,
     borderColor: Colors.error + "60",
-    minWidth: 52,
+    minWidth: 48,
     alignItems: "center",
   },
-  acBtnText: { color: Colors.error, fontSize: Typography.sm, fontWeight: Typography.bold, letterSpacing: 0.5 },
+  acBtnText: {
+    color: Colors.error,
+    fontSize: Typography.sm,
+    fontWeight: Typography.bold,
+    letterSpacing: 0.5,
+  },
   fracScroll: {
     maxHeight: 44,
     backgroundColor: Colors.surface,
+    borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderColor: Colors.border,
   },
   fracScrollContent: {
     paddingHorizontal: Spacing.sm,
-    paddingVertical: Spacing.sm,
+    paddingVertical: 6,
     gap: 6,
     flexDirection: "row",
   },
@@ -436,17 +559,31 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: Radius.sm,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colors.borderLight,
     backgroundColor: Colors.card,
     alignItems: "center",
     justifyContent: "center",
   },
-  fracBtnText: { color: Colors.textSecondary, fontSize: Typography.xs, fontWeight: Typography.semibold },
-  keypad: { flex: 1, padding: Spacing.sm, gap: 8 },
-  keyRow: { flex: 1, flexDirection: "row", gap: 8 },
+  fracBtnText: {
+    color: Colors.textSecondary,
+    fontSize: Typography.xs,
+    fontWeight: Typography.semibold,
+  },
+  keypad: {
+    flex: 1,
+    padding: Spacing.sm,
+    gap: 7,
+    backgroundColor: Colors.bg,
+  },
+  keyRow: {
+    flex: 1,
+    flexDirection: "row",
+    gap: 7,
+  },
   key: {
     flex: 1,
-    borderRadius: 12,
+    borderRadius: Radius.md,
+    borderWidth: 1,
     alignItems: "center",
     justifyContent: "center",
     ...Shadow.key,
