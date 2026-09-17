@@ -11,6 +11,7 @@ import {
   ScrollView,
   SafeAreaView,
   KeyboardAvoidingView,
+  Platform,
   TouchableOpacity,
 } from "react-native";
 import { useRouter } from "expo-router";
@@ -92,6 +93,7 @@ function StairSolverContent({ precision }: { precision: 8 | 16 | 32 }) {
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={{ flex: 1 }}
       >
+        <ScrollView contentContainerStyle={styles.scroll}>
           <View style={styles.header}>
             <TouchableOpacity
               style={styles.backBtn}

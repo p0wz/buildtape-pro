@@ -588,6 +588,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     ...Shadow.key,
   },
+  keyEqualsGlow: {
+    borderColor: Colors.orangeLight,
+    shadowColor: Colors.orange,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 8,
+    elevation: 6,
+  },
   keyText: { fontSize: Typography.xl, fontWeight: Typography.bold },
   // SPACES modal
   spacesOverlay: {
